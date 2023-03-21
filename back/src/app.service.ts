@@ -7,7 +7,7 @@ export class AppService {
 
   constructor() {
     this.octokit = new Octokit({
-      auth: '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',
+      auth: process.env.GITHUB_TOKEN,
     });
   }
 
@@ -16,7 +16,7 @@ export class AppService {
   }
 
   async getGithubUser(username: string) {
-    const { data } = await this.octokit.rest.users.getByUsername({ username });
+    const { data } = await this.octokit.users.getByUsername({ username });
     return data;
   }
 
