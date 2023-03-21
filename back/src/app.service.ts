@@ -6,7 +6,9 @@ export class AppService {
   private octokit: Octokit;
 
   constructor() {
-    this.octokit = new Octokit();
+    this.octokit = new Octokit({
+      auth: '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',
+    });
   }
 
   getHello(): string {
@@ -14,7 +16,12 @@ export class AppService {
   }
 
   async getGithubUser(username: string) {
-    const { data } = await this.octokit.users.getByUsername({ username });
+    const { data } = await this.octokit.rest.users.getByUsername({ username });
+    return data;
+  }
+
+  async getPublicGists(username: string) {
+    const { data } = await this.octokit.rest.gists.listForUser({ username });
     return data;
   }
 
@@ -23,6 +30,7 @@ export class AppService {
       owner: username,
       repo,
     });
+
     return data;
   }
 
@@ -34,14 +42,13 @@ export class AppService {
     return data;
   }
 
-
   async compareBranches(
     username: string,
     repo: string,
     base: string,
     head: string,
   ) {
-    const { data } = await this.octokit.repos.compareCommits({
+    const { data } = await this.octokit.rest.repos.compareCommits({
       owner: username,
       repo,
       base,
@@ -49,13 +56,15 @@ export class AppService {
     });
     return data;
   }
-  
 
   async getBranches(username: string, repo: string) {
-    const { data } = await this.octokit.repos.listBranches({
-      owner: username,
-      repo,
-    });
+    const { data } = await this.octokit.request(
+      `GET /repos/{owner}/{repo}/branches`,
+      {
+        owner: username,
+        repo,
+      },
+    );
     return data;
   }
 }

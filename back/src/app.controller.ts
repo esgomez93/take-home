@@ -17,39 +17,31 @@ export class AppController {
 
   @Get('commits')
   async getCommits() {
-    return this.appService.getCommits(
-      'esgomez93',
-      'https://github.com/esgomez93/take-home.git',
-    );
+    return this.appService.getCommits('esgomez93', 'take-home');
   }
 
-  
   @Get('commit-history')
   async getCommitHistory() {
-    return this.appService.getCommitHistory(
-      'esgomez93',
-      'https://github.com/esgomez93/take-home.git',
-    );
+    return this.appService.getCommitHistory('esgomez93', 'take-home');
   }
-
 
   @Get('compare-branches')
   async compareBranches() {
     return this.appService.compareBranches(
       'esgomez93',
-      'https://github.com/esgomez93/take-home.git',
-      'master',
+      'take-home',
+      'main',
       'dev',
     );
   }
 
-
   @Get('branches')
   async getBranches() {
-    return this.appService.getBranches(
-      'esgomez93',
-      'https://github.com/esgomez93/take-home.git',
-    );
+    return this.appService.getBranches('esgomez93', 'take-home');
   }
 
+  @Get('public-gists')
+  getPublicGists() {
+    return this.appService.getPublicGists('esgomez93');
+  }
 }
