@@ -34,6 +34,7 @@ export class AppService {
     return data;
   }
 
+
   async compareBranches(
     username: string,
     repo: string,
@@ -48,6 +49,7 @@ export class AppService {
     });
     return data;
   }
+  
 
   async getBranches(username: string, repo: string) {
     const { data } = await this.octokit.repos.listBranches({

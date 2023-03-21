@@ -23,6 +23,7 @@ export class AppController {
     );
   }
 
+  
   @Get('commit-history')
   async getCommitHistory() {
     return this.appService.getCommitHistory(
@@ -30,6 +31,7 @@ export class AppController {
       'https://github.com/esgomez93/take-home.git',
     );
   }
+
 
   @Get('compare-branches')
   async compareBranches() {
@@ -41,6 +43,7 @@ export class AppController {
     );
   }
 
+
   @Get('branches')
   async getBranches() {
     return this.appService.getBranches(
@@ -48,4 +51,5 @@ export class AppController {
       'https://github.com/esgomez93/take-home.git',
     );
   }
+
 }
