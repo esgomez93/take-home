@@ -6,7 +6,9 @@ export class AppService {
   private octokit: Octokit;
 
   constructor() {
-    this.octokit = new Octokit();
+    this.octokit = new Octokit({
+      auth: process.env.GITHUB_TOKEN,
+    });
   }
 
   getHello(): string {
@@ -18,11 +20,17 @@ export class AppService {
     return data;
   }
 
+  async getPublicGists(username: string) {
+    const { data } = await this.octokit.rest.gists.listForUser({ username });
+    return data;
+  }
+
   async getCommits(username: string, repo: string) {
     const { data } = await this.octokit.repos.listCommits({
       owner: username,
       repo,
     });
+
     return data;
   }
 
@@ -34,14 +42,13 @@ export class AppService {
     return data;
   }
 
-
   async compareBranches(
     username: string,
     repo: string,
     base: string,
     head: string,
   ) {
-    const { data } = await this.octokit.repos.compareCommits({
+    const { data } = await this.octokit.rest.repos.compareCommits({
       owner: username,
       repo,
       base,
@@ -49,13 +56,15 @@ export class AppService {
     });
     return data;
   }
-  
 
   async getBranches(username: string, repo: string) {
-    const { data } = await this.octokit.repos.listBranches({
-      owner: username,
-      repo,
-    });
+    const { data } = await this.octokit.request(
+      `GET /repos/{owner}/{repo}/branches`,
+      {
+        owner: username,
+        repo,
+      },
+    );
     return data;
   }
 }
